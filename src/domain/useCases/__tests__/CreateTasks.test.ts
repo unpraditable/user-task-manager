@@ -1,6 +1,6 @@
 import { ITaskRepository } from "../../repositories/ITaskRepository";
 import { Task } from "../../entities/Task";
-import { CreateTask } from "../CreateTasks";
+import { CreateTask } from "../CreateTask";
 
 describe("CreateTask", () => {
   let createTask: CreateTask;
