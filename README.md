@@ -1,36 +1,139 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Task Manager
 
-## Getting Started
+A simple and elegant task management application built with Next.js, TypeScript, and Tailwind CSS.
 
-First, run the development server:
+## Quick Start
+
+### Prerequisites
+
+- Node.js 18 or later
+- npm or yarn
+
+### Installation & Running
+
+**Option 1: Local Development**
 
 ```bash
+# Install dependencies
+npm install
+
+# Start development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# Open http://localhost:3000 in your browser
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**Option 2: Docker**
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+# Build and start with Docker
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+docker-compose up --build
 
-## Learn More
+# Open http://localhost:3000 in your browser
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Testing
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+# Run all tests
+npm test
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# Run tests in watch mode
+npm run test:watch
 
-## Deploy on Vercel
+# Run tests with coverage report
+npm run test:coverage
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Future Development
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Adding Authentication
+The architecture is ready for authentication. To add it:
+
+1. Domain Layer:
+
+```bash
+// Add User entity
+class User {
+  id: string;
+  email: string;
+  password: string;
+}
+
+// Add auth use cases
+class RegisterUser { }
+class LoginUser { }
+```
+
+2. Data Layer:
+
+```bash
+// Add auth repository
+interface IAuthRepository {
+  createUser(user: User): Promise<User>;
+  findUserByEmail(email: string): Promise<User | null>;
+}
+```
+
+3. Presentation Layer:
+
+```bash
+// Add auth store and components
+const useAuthStore = create(...);
+<LoginForm />
+<RegisterForm />
+```
+
+### Adding Projects Feature
+
+To organize tasks into projects:
+
+1. Update Task entity with projectId
+2. Add Project entity and repository
+3. Create project use cases (CreateProject, GetProjects, etc.)
+4. Add project components (ProjectList, ProjectForm)
+
+### Adding Notifications
+
+1. Create Notification entity
+2. Add notification use cases
+3. Implement real-time updates with WebSockets
+4. Add notification components
+
+### Database Integration
+
+1. Replace the in-memory repository with a real database:
+2. Install database driver (PostgreSQL, MongoDB, etc.)
+3. Create database repository implementing ITaskRepository
+4. Update dependency injection to use database repository
+
+## Project Structure
+
+```bash
+src/
+├── domain/           # Business logic
+│   ├── entities/     # Task, User, etc.
+│   ├── useCases/     # CreateTask, UpdateTask, etc.
+│   └── repositories/ # Interfaces
+├── data/            # Data layer
+│   └── repositories/ # Implementations
+└── presentation/    # UI layer
+    ├── components/   # React components
+    └── stores/       # State management
+```
+
+## Current Features
+
+1. Create, edit, delete tasks
+2. Filter by status (To Do, In Progress, Done)
+3. Update task status
+4. Clean Architecture pattern
+5. Full test coverage
+
+## Built With
+
+- Frontend: Next.js 14, TypeScript, Tailwind CSS
+- State: Zustand
+- Testing: Jest, React Testing Library
+- Architecture: Clean Architecture
